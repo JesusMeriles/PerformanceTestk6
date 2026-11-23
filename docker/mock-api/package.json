@@ -1,0 +1,14 @@
+{
+  "name": "mock-assessment-api",
+  "version": "1.0.0",
+  "description": "Mock API para pruebas de rendimiento k6 con evaluación financiera y single-session JWT",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2"
+  }
+}
+

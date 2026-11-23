@@ -1,0 +1,152 @@
+{
+  "assessmentCustomerId": 1001,
+  "amounts": [
+    {
+      "conceptId": 1,
+      "amount": 15000.50
+    }
+  ],
+  "data": [
+    {
+      "conceptId": 10,
+      "value": "Evaluación Financiera Inicial"
+    }
+  ],
+  "inventory": [
+    {
+      "idApp": 1,
+      "id": 0,
+      "productName": "Materia Prima Textil",
+      "quantity": 50,
+      "unit": 1,
+      "cost": 12.50,
+      "percentageCompletion": 100,
+      "totalCost": 625.00,
+      "type": 1,
+      "productId": 101,
+      "supplyId": 201,
+      "recordStatus": true
+    }
+  ],
+  "employees": [
+    {
+      "idApp": 1,
+      "id": 0,
+      "jobType": 1,
+      "quantityEmployee": 3,
+      "quantityMonths": 12,
+      "monthlyCost": 1800.00,
+      "recordStatus": true
+    }
+  ],
+  "debts": [
+    {
+      "idApp": 1,
+      "id": 0,
+      "typeOfDebt": 2,
+      "creditorType": 1,
+      "creditorName": 1,
+      "originalAmount": 5000.00,
+      "paymentFrequency": 30,
+      "installmentAmount": 250.00,
+      "balance": 3500.00,
+      "debtConsolidation": true,
+      "otherCreditorName": "Banco Nacional",
+      "monthlyInstallment": 250.00,
+      "recordStatus": true
+    }
+  ],
+  "assets": [
+    {
+      "idApp": 1,
+      "id": 0,
+      "activityType": 1,
+      "assetClassification": 2,
+      "assetType": 1,
+      "description": "Máquina de coser industrial",
+      "marketValue": 1200.00,
+      "assetIdentifier": "MC-IND-01",
+      "licensePlate": "N/A",
+      "recordStatus": true
+    }
+  ],
+  "products": [
+    {
+      "idApp": 1,
+      "id": 0,
+      "productName": "Camisas de Algodón",
+      "hasCostSheet": true,
+      "hasInventory": true,
+      "quantity": 100,
+      "unit": 1,
+      "frequency": 30,
+      "purchasePrice": 15.00,
+      "sellingPrice": 35.00,
+      "finishedProductsInventory": true,
+      "processedProductsInventory": true,
+      "calculateUnitCost": true,
+      "productionUnit": 1,
+      "productionQuantity": 100,
+      "withWaste": 5,
+      "productionCost": 1500.00,
+      "waste": 2,
+      "totalProductionCost": 1530.00,
+      "unitCost": 15.30,
+      "monthlyCost": 1530.00,
+      "monthlySales": 3500.00,
+      "mub": 56.28,
+      "recordStatus": true,
+      "idAppProduct": 1,
+      "productionUnitSell": 1,
+      "productionQuantitySell": 100,
+      "clarification": "Producción estándar mensual",
+      "supplies": [
+        {
+          "idApp": 1,
+          "id": 0,
+          "supplyName": "Botones de nácar",
+          "inventory": true,
+          "quantity": 600,
+          "purchaseUnit": 1,
+          "purchasePrice": 0.10,
+          "quantityUnitProduced": 6,
+          "costUnit": 0.60,
+          "recordStatus": true
+        }
+      ]
+    }
+  ],
+  "dependents": [
+    {
+      "idApp": 1,
+      "id": 0,
+      "relation": 1,
+      "quantity": 2,
+      "recordStatus": true
+    }
+  ],
+  "maintenance": [
+    {
+      "idApp": 1,
+      "id": 0,
+      "classification": 1,
+      "machineType": 1,
+      "totalMaintenanceCost": 150.00,
+      "recordStatus": true,
+      "supplies": [
+        {
+          "idApp": 1,
+          "supply": 1,
+          "id": 0,
+          "purchaseUnit": 1,
+          "quantity": 2,
+          "purchasePrice": 25.00,
+          "frequency": 90,
+          "cost": 50.00,
+          "recordStatus": true
+        }
+      ]
+    }
+  ]
+}
+

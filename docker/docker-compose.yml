@@ -1,0 +1,87 @@
+services:
+  # ----------------------------------------------------------------------------
+  # 1. Prometheus con Remote Write Receiver habilitado para recibir métricas de k6
+  # ----------------------------------------------------------------------------
+  prometheus:
+    image: prom/prometheus:v2.54.0
+    container_name: perf-prometheus
+    restart: unless-stopped
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+      - '--web.enable-remote-write-receiver'
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    networks:
+      - perf-net
+
+  # ----------------------------------------------------------------------------
+  # 2. Grafana con Datasource y Dashboard auto-provisionados
+  # ----------------------------------------------------------------------------
+  grafana:
+    image: grafana/grafana:11.0.0
+    container_name: perf-grafana
+    restart: unless-stopped
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+    ports:
+      - "3001:3000"  # Grafana mapeado al puerto 3001 del host para no colisionar con la app en el 3000
+    volumes:
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources:ro
+      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ../dashboards:/etc/grafana/dashboards:ro
+    depends_on:
+      - prometheus
+    networks:
+      - perf-net
+
+  # ----------------------------------------------------------------------------
+  # 3. cAdvisor para monitoreo de métricas de contenedores (CPU, RAM, I/O)
+  # ----------------------------------------------------------------------------
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.49.1
+    container_name: perf-cadvisor
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+    privileged: true
+    devices:
+      - /dev/kmsg
+    networks:
+      - perf-net
+
+  # ----------------------------------------------------------------------------
+  # 4. Mock Assessment API (Para pruebas locales inmediatas de punta a punta)
+  # ----------------------------------------------------------------------------
+  mock-api:
+    build:
+      context: ./mock-api
+      dockerfile: Dockerfile
+    container_name: perf-mock-api
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - JWT_SECRET=performance-test-secret-key-k6
+    networks:
+      - perf-net
+
+networks:
+  perf-net:
+    driver: bridge
+

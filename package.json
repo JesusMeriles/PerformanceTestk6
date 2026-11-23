@@ -1,0 +1,45 @@
+{
+  "name": "k6-performance-project",
+  "version": "1.0.0",
+  "description": "Framework de pruebas de rendimiento automatizadas con k6, Prometheus, Grafana, Docker y BDD Cucumber",
+  "main": "index.js",
+  "scripts": {
+    "docker:up": "docker compose -f docker/docker-compose.yml up -d --build",
+    "docker:down": "docker compose -f docker/docker-compose.yml down",
+    "docker:status": "docker compose -f docker/docker-compose.yml ps",
+    "docker:logs": "docker compose -f docker/docker-compose.yml logs -f",
+    "smoke": "cross-env K6_PROMETHEUS_RW_SERVER_URL=http://localhost:9090/api/v1/write K6_PROMETHEUS_RW_TREND_STATS=\"p(90),p(95),p(99),min,max\" k6 run --insecure-skip-tls-verify -o experimental-prometheus-rw scenarios/smoke.js",
+    "load": "cross-env K6_PROMETHEUS_RW_SERVER_URL=http://localhost:9090/api/v1/write K6_PROMETHEUS_RW_TREND_STATS=\"p(90),p(95),p(99),min,max\" k6 run --insecure-skip-tls-verify -o experimental-prometheus-rw scenarios/load.js",
+    "stress": "cross-env K6_PROMETHEUS_RW_SERVER_URL=http://localhost:9090/api/v1/write K6_PROMETHEUS_RW_TREND_STATS=\"p(90),p(95),p(99),min,max\" k6 run --insecure-skip-tls-verify -o experimental-prometheus-rw scenarios/stress.js",
+    "spike": "cross-env K6_PROMETHEUS_RW_SERVER_URL=http://localhost:9090/api/v1/write K6_PROMETHEUS_RW_TREND_STATS=\"p(90),p(95),p(99),min,max\" k6 run --insecure-skip-tls-verify -o experimental-prometheus-rw scenarios/spike.js",
+    "soak": "cross-env K6_PROMETHEUS_RW_SERVER_URL=http://localhost:9090/api/v1/write K6_PROMETHEUS_RW_TREND_STATS=\"p(90),p(95),p(99),min,max\" k6 run --insecure-skip-tls-verify -o experimental-prometheus-rw scenarios/soak.js",
+    "test:login": "k6 run --insecure-skip-tls-verify scenarios/standalone_login.js",
+    "test:create": "k6 run --insecure-skip-tls-verify scenarios/standalone_create.js",
+    "test:query": "k6 run --insecure-skip-tls-verify scenarios/standalone_query.js",
+    "perf": "node scripts/run-test.js",
+    "test": "node scripts/run-test.js",
+    "bdd": "cucumber-js features/**/*.feature --format html:report/cucumber.html --format summary",
+    "bdd:smoke": "cucumber-js features/**/*.feature --tags \"@smoke\" --format html:report/cucumber.html --format summary",
+    "bdd:load": "cucumber-js features/**/*.feature --tags \"@load\" --format html:report/cucumber.html --format summary",
+    "bdd:stress": "cucumber-js features/**/*.feature --tags \"@stress\" --format html:report/cucumber.html --format summary",
+    "bdd:spike": "cucumber-js features/**/*.feature --tags \"@spike\" --format html:report/cucumber.html --format summary"
+  },
+  "keywords": [
+    "k6",
+    "performance-testing",
+    "prometheus",
+    "grafana",
+    "cucumber",
+    "bdd",
+    "stress-test",
+    "load-test"
+  ],
+  "author": "Performance Engineer",
+  "license": "ISC",
+  "devDependencies": {
+    "@cucumber/cucumber": "^10.8.0",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.4.5"
+  }
+}
+
